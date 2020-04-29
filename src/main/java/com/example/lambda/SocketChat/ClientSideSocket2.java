@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @SuppressWarnings("resource")
 public class ClientSideSocket2 {
@@ -22,8 +24,42 @@ public class ClientSideSocket2 {
             System.out.println("I am  client 2!");
 
             final OutputStream outputStream = socket.getOutputStream();
+
+            ExecutorService pool = Executors.newCachedThreadPool();
             //发送消息
-            new Thread(new Runnable() {
+            pool.execute(()->{
+                try {
+                    while(true){
+                        String str = scanner.nextLine();
+                        outputStream.write(str.getBytes());
+                        outputStream.flush();
+                    }
+                } catch (IOException e) {
+                    System.out.println("Writing Quit.");
+                    System.exit(0);
+                }
+            });
+            //接收消息
+            pool.execute(()->{
+                try {
+                    byte[] bytes = new byte[1024];
+                    int n = 0;
+                    while(true){
+                        while ( (n = socket.getInputStream().read(bytes)) != -1){
+                            String str = new String (bytes, 0, n);
+                                System.out.println(str);
+                        }
+                    }
+                } catch (IOException e) {
+                    System.out.println("Reading Quit.");
+                    System.exit(0);
+                }
+            });
+
+
+
+            //发送消息
+            /*new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -37,9 +73,9 @@ public class ClientSideSocket2 {
                         System.exit(0);
                     }
                 }
-            }).start();
+            }).start();*/
             //接收消息
-            new Thread(new Runnable() {
+            /*new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -56,7 +92,7 @@ public class ClientSideSocket2 {
                          System.exit(0);
                      }
                 }
-            }).start();
+            }).start();*/
 
 
 

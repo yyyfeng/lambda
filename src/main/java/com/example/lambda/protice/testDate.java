@@ -1,5 +1,6 @@
 package com.example.lambda.protice;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,6 +35,12 @@ public class testDate {
         for (Object m :res) {
             System.out.print(m+",");
         }*/
-        System.out.println((int)(Math.floor(11/2)+1));
+//        System.out.println((int)(Math.floor(11/2)+1));
+        String msg="2888.00";
+        System.out.println(Integer.parseInt(msg.substring(0,msg.indexOf("."))));
+        String price="2888.00";
+
+
+
     }
 }

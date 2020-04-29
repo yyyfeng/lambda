@@ -7,7 +7,8 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import java.net.InetSocketAddress;
 import java.util.Scanner;
- 
+
+
 public class Client {
     public static void main(String[] args) {
        //创建连接

@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+import java.util.concurrent.*;
 
 @SuppressWarnings("resource")
 public class ClientSideSocket {
@@ -19,11 +20,11 @@ public class ClientSideSocket {
 
             final OutputStream outputStream = socket.getOutputStream();
             //发送消息
-            new Thread(new Runnable() {
+            /*new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        while(true){
+                        while (true) {
                             String str = scanner.nextLine();
                             outputStream.write(str.getBytes());
                             outputStream.flush();
@@ -33,26 +34,58 @@ public class ClientSideSocket {
                         System.exit(0);
                     }
                 }
-            }).start();
+            }).start();*/
             //接收消息
-            new Thread(new Runnable() {
+
+//            ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2, 2, 6000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+            ExecutorService pool = Executors.newCachedThreadPool();
+            pool.execute(() -> {
+                try {
+                    while (true) {
+                        String str = scanner.nextLine();
+                        outputStream.write(str.getBytes());
+                        outputStream.flush();
+                    }
+                } catch (IOException e) {
+                    System.out.println("Writing Quit.");
+                    System.exit(0);
+                }
+            });
+
+            pool.execute(() -> {
+                try {
+                    byte[] bytes = new byte[1024];
+                    int n = 0;
+                    while (true) {
+                        while ((n = socket.getInputStream().read(bytes)) != -1) {
+                            String str = new String(bytes, 0, n);
+                                System.out.println(str);
+                        }
+                    }
+                } catch (IOException e) {
+                    System.out.println("Reading Quit.");
+                    System.exit(0);
+                }
+            });
+
+            /*new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         byte[] bytes = new byte[1024];
                         int n = 0;
-                        while(true){
-                            while ( (n = socket.getInputStream().read(bytes)) != -1){
-                                String str = new String (bytes, 0, n);
+                        while (true) {
+                            while ((n = socket.getInputStream().read(bytes)) != -1) {
+                                String str = new String(bytes, 0, n);
 //                                System.out.println(str);
                             }
                         }
-                     } catch (IOException e) {
-                         System.out.println("Reading Quit.");
-                         System.exit(0);
-                     }
+                    } catch (IOException e) {
+                        System.out.println("Reading Quit.");
+                        System.exit(0);
+                    }
                 }
-            }).start();
+            }).start();*/
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
