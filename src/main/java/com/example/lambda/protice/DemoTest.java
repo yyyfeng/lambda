@@ -57,10 +57,17 @@ public class DemoTest {
 
 
 
-    public static void main(String[] args) {
-        System.out.println("getXmlStr:"+getXmlStr(XmlStr));
-        logger.info("--------------------");
-        System.out.println("getSignStr:"+getSignStr(XmlStr));
-    }
+//    public static void main(String[] args) {
+//        System.out.println("getXmlStr:"+getXmlStr(XmlStr));
+//        logger.info("--------------------");
+//        System.out.println("getSignStr:"+getSignStr(XmlStr));
+//    }
 
+
+    public static void main(String[] args) {
+       /* boolean b = Double.parseDouble("130000") <= (Double.parseDouble("1350")*100);
+        System.out.println(b);*/
+        float v = Float.parseFloat("0.94") * 6;
+        System.out.println(v);
+    }
 }

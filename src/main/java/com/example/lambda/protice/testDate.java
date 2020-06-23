@@ -36,11 +36,18 @@ public class testDate {
             System.out.print(m+",");
         }*/
 //        System.out.println((int)(Math.floor(11/2)+1));
-        String msg="2888.00";
-        System.out.println(Integer.parseInt(msg.substring(0,msg.indexOf("."))));
-        String price="2888.00";
+//        String msg="2888.00";
+//        System.out.println(Integer.parseInt(msg.substring(0,msg.indexOf("."))));
+//        String price="2888.00";
+//            String msg=null;
+//            testString(msg);
+
+        List arrayList=new ArrayList();
+        System.out.println(arrayList.size());
 
 
-
+    }
+    private static void testString(String simple){
+        System.out.println("simple:"+simple);
     }
 }
