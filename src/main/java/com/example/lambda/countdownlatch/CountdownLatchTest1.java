@@ -26,6 +26,7 @@ public class CountdownLatchTest1 {
                 }
             };
             service.execute(runnable);
+
         }
 
         try {
